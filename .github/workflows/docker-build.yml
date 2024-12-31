@@ -1,0 +1,80 @@
+name: Build and Push Docker Images
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 0 * * 1' # Weekly at midnight on Monday
+
+jobs:
+  detect-dockerfiles:
+    runs-on: ubuntu-latest
+    outputs:
+      images: ${{ steps.detect.outputs.images }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Detect Dockerfiles
+        id: detect
+        run: |
+          # Find all .Dockerfile files in the dockerfiles/ directory
+          DOCKERFILES=$(find dockerfiles/ -name "*.Dockerfile")
+
+          # Extract the image names (e.g., "image1" from "dockerfiles/image1.Dockerfile")
+          IMAGES=$(echo "$DOCKERFILES" | sed 's|dockerfiles/||g' | sed 's|.Dockerfile||g')
+
+          # Convert the list of image names to a JSON array
+          JSON_ARRAY=$(echo "$IMAGES" | jq -R -s -c 'split("\n")[:-1]')
+
+          # Output the JSON array
+          echo "images=$JSON_ARRAY" >> $GITHUB_OUTPUT
+
+  build:
+    runs-on: ubuntu-latest
+    needs: detect-dockerfiles
+    strategy:
+      matrix:
+        image: ${{ fromJson(needs.detect-dockerfiles.outputs.images) }}
+      fail-fast: false
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Cache Docker layers
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: buildx-${{ runner.os }}-dev-containers-${{ matrix.image }}-${{ hashFiles('dockerfiles/' + matrix.image + '.Dockerfile') }}
+          # Cache prefix
+          restore-keys: |
+            buildx-${{ runner.os }}-dev-containers-${{ matrix.image }}-
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: dockerfiles/${{ matrix.image }}.Dockerfile
+          pull: true
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/dev-container-${{ matrix.image }}:latest
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
