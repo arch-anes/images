@@ -61,7 +61,7 @@ jobs:
           key: buildx-${{ runner.os }}-${{ matrix.image }}-${{ hashFiles(format('dockerfiles/{0}.Dockerfile', matrix.image)) }}
           # Cache prefix
           restore-keys: |
-            buildx-${{ runner.os }}-dev-containers-${{ matrix.image }}-
+            buildx-${{ runner.os }}-${{ matrix.image }}-
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
@@ -70,7 +70,7 @@ jobs:
           file: dockerfiles/${{ matrix.image }}.Dockerfile
           pull: true
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/dev-container-${{ matrix.image }}:latest
+          tags: ghcr.io/${{ github.repository_owner }}/${{ matrix.image }}:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
 
