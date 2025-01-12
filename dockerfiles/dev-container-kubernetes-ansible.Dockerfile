@@ -25,4 +25,4 @@ RUN usermod -aG docker vscode
 
 USER vscode
 
-RUN curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
+RUN cd $HOME && curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
