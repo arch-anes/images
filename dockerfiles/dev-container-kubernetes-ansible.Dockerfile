@@ -21,6 +21,8 @@ RUN apt-get update && apt-get install -y apt-transport-https pipx gettext-base k
 RUN PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx install --include-deps ansible && \
     PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx inject  --include-deps ansible jmespath boto3 ansible-lint molecule molecule-plugins[docker]
 
-RUN curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
-
 RUN usermod -aG docker vscode
+
+USER vscode
+
+RUN curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
