@@ -17,8 +17,8 @@ RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings
 
 RUN apt-get update && apt-get install -y golang-go kubectl helm docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-RUN curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && install minikube-linux-amd64 /usr/local/bin/minikube
+RUN curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
 
-RUN curl -L "https://go.kubebuilder.io/dl/latest/$(go env GOOS)/$(go env GOARCH)" -o kubebuilder && install kubebuilder /usr/local/bin/kubebuilder
+RUN curl -L "https://go.kubebuilder.io/dl/latest/$(go env GOOS)/$(go env GOARCH)" -o kubebuilder && install kubebuilder /usr/local/bin/kubebuilder && rm kubebuilder
 
 RUN usermod -aG docker vscode
