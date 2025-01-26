@@ -5,6 +5,7 @@ RUN apt-get update && apt-get install -y software-properties-common ca-certifica
 RUN sudo add-apt-repository ppa:longsleep/golang-backports
 
 ARG KUBECTL_VERSION=1.30
+ARG KUBEBUILDER_VERSION=4.5.0
 
 RUN curl -fsSL https://pkgs.k8s.io/core:/stable:/v$KUBECTL_VERSION/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg && \
     echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v$KUBECTL_VERSION/deb/ /" | sudo tee /etc/apt/sources.list.d/kubernetes.list
@@ -19,6 +20,6 @@ RUN apt-get update && apt-get install -y golang-go kubectl helm docker-ce docker
 
 RUN curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
 
-RUN curl -L "https://go.kubebuilder.io/dl/latest/$(go env GOOS)/$(go env GOARCH)" -o kubebuilder && install kubebuilder /usr/local/bin/kubebuilder && rm kubebuilder
+RUN curl -L "https://github.com/kubernetes-sigs/kubebuilder/releases/download/v$KUBEBUILDER_VERSION/kubebuilder_linux_amd64" -o kubebuilder && install kubebuilder /usr/local/bin/kubebuilder && rm kubebuilder
 
 RUN usermod -aG docker vscode
