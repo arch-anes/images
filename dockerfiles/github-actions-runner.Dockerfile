@@ -1,6 +1,6 @@
 FROM ghcr.io/actions/actions-runner:latest
 
-ARG KUBECTL_VERSION=1.30
+ARG KUBECTL_VERSION=1.32
 
 RUN curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
 
