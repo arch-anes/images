@@ -54,6 +54,17 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Extract base image tags
+        id: base-image-tag
+        run: |
+          FROM_LINE=$(grep -m 1 "^FROM" dockerfiles/${{ matrix.image }}.Dockerfile)
+          BASE_IMAGE=$(echo "$FROM_LINE" | awk '{print $2}')
+          BASE_IMAGE_TAG=$(echo "$BASE_IMAGE" | cut -d':' -f2-)
+          if [ -z "$BASE_IMAGE_TAG" ]; then
+            BASE_IMAGE_TAG="latest"
+          fi
+          echo "tag=$BASE_IMAGE_TAG" >> $GITHUB_OUTPUT
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
@@ -61,4 +72,6 @@ jobs:
           file: dockerfiles/${{ matrix.image }}.Dockerfile
           pull: true
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/${{ matrix.image }}:latest
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/${{ matrix.image }}:latest
+            ghcr.io/${{ github.repository_owner }}/${{ matrix.image }}:${{ steps.base-image-tag.outputs.tag }}
