@@ -1,0 +1,37 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+        "config:base"
+    ],
+    "docker": {
+        "enabled": true
+    },
+    "regexManagers": [
+        {
+            "fileMatch": [
+                "^dockerfiles/nextcloud\\.Dockerfile$"
+            ],
+            "matchStrings": [
+                "FROM (?<depName>[^:\\s]+):(?<currentValue>[\\w.-]+)"
+            ],
+            "datasourceTemplate": "docker"
+        }
+    ],
+    "packageRules": [
+        {
+            "automerge": true,
+            "automergeType": "pr",
+            "automergeStrategy": "squash",
+            "matchUpdateTypes": [
+                "major",
+                "minor",
+                "patch",
+                "pin",
+                "digest"
+            ],
+            "matchDatasources": [
+                "docker"
+            ]
+        }
+    ]
+}
