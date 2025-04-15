@@ -9,6 +9,7 @@
     "regexManagers": [
         {
             "fileMatch": [
+                "^dockerfiles/inventree\\.Dockerfile$",
                 "^dockerfiles/nextcloud\\.Dockerfile$"
             ],
             "matchStrings": [
