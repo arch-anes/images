@@ -1,4 +1,4 @@
-FROM nextcloud:31.0.4-fpm-alpine
+FROM nextcloud:31.0.5-fpm-alpine
 
 RUN apk update && apk add nginx sudo openrc ocrmypdf tesseract-ocr
 
