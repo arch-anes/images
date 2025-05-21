@@ -1,4 +1,4 @@
-FROM inventree/inventree:0.17.11
+FROM inventree/inventree:0.17.12
 
 RUN apk update && apk add nginx sudo openrc
 
