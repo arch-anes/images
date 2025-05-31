@@ -9,8 +9,10 @@
     "regexManagers": [
         {
             "fileMatch": [
+                "^dockerfiles/github-actions-runner\\.Dockerfile$",
                 "^dockerfiles/inventree\\.Dockerfile$",
-                "^dockerfiles/nextcloud\\.Dockerfile$"
+                "^dockerfiles/nextcloud\\.Dockerfile$",
+                "^dockerfiles/spilo-17\\.Dockerfile$"
             ],
             "matchStrings": [
                 "FROM (?<depName>[^:\\s]+):(?<currentValue>[\\w.-]+)"
