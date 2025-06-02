@@ -1,4 +1,4 @@
-FROM ghcr.io/actions/actions-runner:2.324.0
+FROM ghcr.io/actions/actions-runner:2.325.0
 
 ARG KUBECTL_VERSION=1.32
 
