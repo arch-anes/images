@@ -19,4 +19,4 @@ RUN curl -o pgdg-repo.rpm -fsSL https://download.postgresql.org/pub/repos/yum/re
     rm -f pgdg-repo.rpm && \
     microdnf install -y pgvector_17
 
-USER postgres
+USER 26
