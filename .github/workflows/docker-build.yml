@@ -57,7 +57,7 @@ jobs:
       - name: Extract base image tags
         id: base-image-tag
         run: |
-          FROM_LINE=$(grep -m 1 "^FROM" dockerfiles/${{ matrix.image }}.Dockerfile)
+          FROM_LINE=$(grep -Pm 1 "^FROM(?!.* AS )" dockerfiles/${{ matrix.image }}.Dockerfile)
           BASE_IMAGE=$(echo "$FROM_LINE" | awk '{print $2}')
           BASE_IMAGE_TAG=$(echo "$BASE_IMAGE" | cut -d':' -f2-)
           if [ -z "$BASE_IMAGE_TAG" ]; then
