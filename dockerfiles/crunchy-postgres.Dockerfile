@@ -11,12 +11,3 @@ FROM registry.developers.crunchydata.com/crunchydata/crunchy-postgres:ubi9-17.5-
 
 COPY --from=base /usr/lib/postgresql/17/lib/* /usr/pgsql-17/lib/
 COPY --from=base /usr/share/postgresql/17/extension/* /usr/pgsql-17/share/extension/
-
-USER root
-
-RUN curl -o pgdg-repo.rpm -fsSL https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm && \
-    rpm -i pgdg-repo.rpm && \
-    rm -f pgdg-repo.rpm && \
-    microdnf install -y pgvector_17
-
-USER 26
