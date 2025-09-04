@@ -4,7 +4,7 @@ RUN apt-get update && apt-get install -y software-properties-common ca-certifica
 
 RUN sudo add-apt-repository ppa:longsleep/golang-backports
 
-ARG KUBECTL_VERSION=1.32
+ARG KUBECTL_VERSION=1.33
 ARG KUBEBUILDER_VERSION=4.5.0
 
 RUN curl -fsSL https://pkgs.k8s.io/core:/stable:/v$KUBECTL_VERSION/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg && \

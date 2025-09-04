@@ -1,6 +1,6 @@
 FROM mcr.microsoft.com/vscode/devcontainers/base:ubuntu-24.04
 
-ARG KUBECTL_VERSION=1.32
+ARG KUBECTL_VERSION=1.33
 
 RUN curl -fsSL https://pkgs.k8s.io/core:/stable:/v$KUBECTL_VERSION/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg && \
     echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v$KUBECTL_VERSION/deb/ /" | sudo tee /etc/apt/sources.list.d/kubernetes.list
