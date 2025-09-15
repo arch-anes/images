@@ -1,6 +1,6 @@
-FROM inventree/inventree:0.17.14
+FROM inventree/inventree:1.0.0
 
-RUN apk update && apk add nginx sudo openrc
+RUN apt update && apt install -y nginx sudo openrc
 
 COPY ./files/inventree/nginx.conf /etc/nginx/http.d/default.conf
 RUN nginx -T
