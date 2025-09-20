@@ -1,4 +1,4 @@
-FROM inventree/inventree:1.0.0
+FROM inventree/inventree:1.0.1
 
 RUN apt update && apt install -y nginx sudo openrc
 
