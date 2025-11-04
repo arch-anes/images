@@ -1,4 +1,4 @@
-FROM inventree/inventree:1.1.1
+FROM inventree/inventree:1.1.2
 
 RUN apt update && apt install -y nginx
 
