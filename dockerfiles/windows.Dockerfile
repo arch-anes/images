@@ -1,4 +1,4 @@
-FROM ghcr.io/dockur/windows:5.13
+FROM ghcr.io/dockur/windows:5.14
 
 RUN apt-get update && \ 
     apt-get --no-install-recommends -y install \
