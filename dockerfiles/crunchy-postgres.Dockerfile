@@ -2,7 +2,7 @@ FROM mcr.microsoft.com/vscode/devcontainers/base:ubuntu-24.04 AS base
 
 # Don't forget to run the update command on postgresql server
 # https://immich.app/docs/administration/postgres-standalone#updating-vectorchord
-ARG VCHORD_VERSION=0.5.3
+ARG VCHORD_VERSION=1.0.0
 
 RUN curl -o vchord.deb -fsSL https://github.com/tensorchord/VectorChord/releases/download/${VCHORD_VERSION}/postgresql-17-vchord_${VCHORD_VERSION}-1_amd64.deb && \
     dpkg --force-all -i vchord.deb && rm -f vchord.deb
