@@ -11,14 +11,25 @@ RUN curl -fsSL https://packages.buildkite.com/helm-linux/helm-debian/gpgkey | su
 RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg && \
     echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
 
-RUN sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc && sudo chmod a+r /etc/apt/keyrings/docker.asc && \
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list
-
-RUN apt-get update && apt-get install -y apt-transport-https pipx gettext-base kubectl helm vagrant docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+RUN apt-get update && apt-get install -y \
+    apt-transport-https \
+    pipx \
+    gettext-base \
+    kubectl helm \
+    vagrant \
+    qemu-kvm libvirt-daemon-system libvirt-clients libvirt-dev virt-manager kmod && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Workaround for https://github.com/pypa/pipx/issues/754#issuecomment-951162846
 # Fixed in pipx 1.5.0 but not yet available in apt which has pipx 1.4.3
-RUN PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx install --include-deps ansible && \
-    PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx inject  --include-deps ansible jmespath netaddr boto3 ansible-lint molecule molecule-plugins[docker]
+RUN PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx install --include-deps "ansible>11,<12" && \
+    # https://github.com/ansible-community/molecule-plugins/issues/301#issuecomment-2629683469
+    PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx inject  --include-deps ansible jmespath netaddr boto3 ansible-lint "molecule==25.1.0" "molecule-plugins==23.7.0" "molecule-plugins[vagrant]==23.7.0"
 
-RUN usermod -aG docker vscode
+RUN usermod -aG libvirt,kvm vscode
+
+COPY ./files/dev-container-kubernetes-ansible/start-libvirt.sh /usr/local/bin/start-libvirt.sh
+
+USER vscode
+
+RUN vagrant plugin install vagrant-libvirt
