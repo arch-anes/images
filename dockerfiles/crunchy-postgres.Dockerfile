@@ -11,3 +11,15 @@ FROM registry.developers.crunchydata.com/crunchydata/crunchy-postgres:ubi9-17.9-
 
 COPY --from=base /usr/lib/postgresql/17/lib/* /usr/pgsql-17/lib/
 COPY --from=base /usr/share/postgresql/17/extension/* /usr/pgsql-17/share/extension/
+
+USER root
+
+ARG TIMESCALEDB_VERSION=2.25.2
+# https://github.com/CrunchyData/postgres-operator/issues/2692#issuecomment-1687095661
+RUN curl -sSL -o /etc/yum.repos.d/timescale_timescaledb.repo "https://packagecloud.io/install/repositories/timescale/timescaledb/config_file.repo?os=el&dist=9" && \
+    microdnf update -y && \
+    microdnf install -y timescaledb-2-loader-postgresql-17-${TIMESCALEDB_VERSION} && \
+    microdnf install -y timescaledb-2-postgresql-17-${TIMESCALEDB_VERSION} && \
+    microdnf clean all
+
+USER 26
