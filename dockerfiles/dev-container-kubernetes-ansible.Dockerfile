@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y apt-transport-https pipx gettext-base k
 
 # Workaround for https://github.com/pypa/pipx/issues/754#issuecomment-951162846
 # Fixed in pipx 1.5.0 but not yet available in apt which has pipx 1.4.3
-RUN PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx install --include-deps ansible && \
+RUN PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx install --include-deps ansible uv && \
     PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx inject  --include-deps ansible jmespath netaddr boto3 ansible-lint molecule molecule-plugins[docker]
 
 RUN usermod -aG docker vscode
