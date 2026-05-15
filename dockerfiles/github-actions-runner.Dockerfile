@@ -9,4 +9,5 @@ RUN sudo add-apt-repository ppa:longsleep/golang-backports
 RUN curl -fsSL https://pkgs.k8s.io/core:/stable:/v$KUBECTL_VERSION/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg && \
     echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v$KUBECTL_VERSION/deb/ /" | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
-RUN sudo apt-get update && sudo apt-get install -y software-properties-common build-essential kubectl golang-go nodejs apt-transport-https pipx
+RUN sudo apt-get update && sudo apt-get install -y software-properties-common build-essential kubectl golang-go nodejs apt-transport-https pipx \
+    && sudo rm -rf /var/lib/apt/lists/*
