@@ -14,8 +14,7 @@ RUN sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/key
 RUN sudo apt-get update && sudo apt-get install -y kubectl helm docker-ce-cli \
     && sudo rm -rf /var/lib/apt/lists/*
 
-ARG YAMLFMT_VERSION=0.21.0
-RUN curl -L https://github.com/google/yamlfmt/releases/download/v${YAMLFMT_VERSION}/yamlfmt_${YAMLFMT_VERSION}_Linux_x86_64.tar.gz | sudo tar -xzf - -C /usr/local/bin/ yamlfmt
+RUN brew install yamlfmt
 
 ARG HELMFMT_VERSION=0.5.0
 RUN curl -L https://github.com/digitalstudium/helmfmt/releases/download/v${HELMFMT_VERSION}/helmfmt_Linux_x86_64.tar.gz | sudo tar -xzf - -C /usr/local/bin/ helmfmt
