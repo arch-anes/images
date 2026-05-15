@@ -9,6 +9,7 @@ variable "REGISTRY" {
 group "default" {
   targets = [
     "crunchy-postgres",
+    "dev-container-kubernetes",
     "dev-container-kubernetes-ansible",
     "dev-container-kubernetes-go",
     "github-actions-runner",
@@ -38,15 +39,27 @@ target "crunchy-postgres" {
   tags = tags("crunchy-postgres")
 }
 
+target "dev-container-kubernetes" {
+  inherits = ["common"]
+  dockerfile = "dockerfiles/dev-container-kubernetes.Dockerfile"
+  tags = tags("dev-container-kubernetes")
+}
+
 target "dev-container-kubernetes-ansible" {
   inherits = ["common"]
   dockerfile = "dockerfiles/dev-container-kubernetes-ansible.Dockerfile"
+  contexts = {
+    dev-container-kubernetes = "target:dev-container-kubernetes"
+  }
   tags = tags("dev-container-kubernetes-ansible")
 }
 
 target "dev-container-kubernetes-go" {
   inherits = ["common"]
   dockerfile = "dockerfiles/dev-container-kubernetes-go.Dockerfile"
+  contexts = {
+    dev-container-kubernetes = "target:dev-container-kubernetes"
+  }
   tags = tags("dev-container-kubernetes-go")
 }
 
