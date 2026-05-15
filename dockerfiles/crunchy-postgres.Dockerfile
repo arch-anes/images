@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/vscode/devcontainers/base:ubuntu-24.04 AS base
+FROM mcr.microsoft.com/devcontainers/base:ubuntu-24.04 AS base
 
 # Don't forget to run the update command on postgresql server
 # https://immich.app/docs/administration/postgres-standalone#updating-vectorchord
