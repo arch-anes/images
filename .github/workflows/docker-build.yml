@@ -5,40 +5,14 @@ on:
     branches:
       - main
   schedule:
-    - cron: '0 0 * * 1' # Weekly at midnight on Monday
+    - cron: '0 0 * * 1'
 
 jobs:
-  detect-dockerfiles:
-    runs-on: ubuntu-latest
-    outputs:
-      images: ${{ steps.detect.outputs.images }}
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
-
-      - name: Detect Dockerfiles
-        id: detect
-        run: |
-          # Find all .Dockerfile files in the dockerfiles/ directory
-          DOCKERFILES=$(find dockerfiles/ -name "*.Dockerfile")
-
-          # Extract the image names (e.g., "image1" from "dockerfiles/image1.Dockerfile")
-          IMAGES=$(echo "$DOCKERFILES" | sed 's|dockerfiles/||g' | sed 's|.Dockerfile||g')
-
-          # Convert the list of image names to a JSON array
-          JSON_ARRAY=$(echo "$IMAGES" | jq -R -s -c 'split("\n")[:-1]')
-
-          # Output the JSON array
-          echo "images=$JSON_ARRAY" >> $GITHUB_OUTPUT
-
   build:
     runs-on: ubuntu-latest
-    needs: detect-dockerfiles
-    strategy:
-      matrix:
-        image: ${{ fromJson(needs.detect-dockerfiles.outputs.images) }}
-      fail-fast: false
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       - name: Checkout repository
@@ -47,31 +21,20 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
 
-      - name: Log in to Docker Hub
+      - name: Log in to GitHub Container Registry
         uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract base image tags
-        id: base-image-tag
-        run: |
-          FROM_LINE=$(grep -Pm 1 "^FROM(?!.* AS )" dockerfiles/${{ matrix.image }}.Dockerfile)
-          BASE_IMAGE=$(echo "$FROM_LINE" | awk '{print $2}')
-          BASE_IMAGE_TAG=$(echo "$BASE_IMAGE" | cut -d':' -f2-)
-          if [ -z "$BASE_IMAGE_TAG" ]; then
-            BASE_IMAGE_TAG="latest"
-          fi
-          echo "tag=$BASE_IMAGE_TAG" >> $GITHUB_OUTPUT
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v7
+      - name: Build and push
+        uses: docker/bake-action@v6
+        env:
+          USER: ${{ github.repository_owner }}
         with:
-          context: .
-          file: dockerfiles/${{ matrix.image }}.Dockerfile
-          pull: true
+          files: ./docker-bake.hcl
           push: true
-          tags: |
-            ghcr.io/${{ github.repository_owner }}/${{ matrix.image }}:latest
-            ghcr.io/${{ github.repository_owner }}/${{ matrix.image }}:${{ steps.base-image-tag.outputs.tag }}
+          set: |
+            *.cache-from=type=gha
+            *.cache-to=type=gha,mode=max
