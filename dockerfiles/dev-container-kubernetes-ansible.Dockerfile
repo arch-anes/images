@@ -2,10 +2,9 @@
 # or available in your registry.
 FROM dev-container-kubernetes
 
-RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg && \
-    echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+RUN brew tap hashicorp/tap && brew install hashicorp/tap/vagrant
 
-RUN sudo apt-get update && sudo apt-get install -y pipx vagrant \
+RUN sudo apt-get update && sudo apt-get install -y pipx \
     && sudo rm -rf /var/lib/apt/lists/*
 
 # Workaround for https://github.com/pypa/pipx/issues/754#issuecomment-951162846
