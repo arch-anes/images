@@ -30,26 +30,43 @@ target "common" {
 }
 
 function "tags" {
-  params = [name]
-  result = ["${REGISTRY}/${USER}/${name}:latest"]
+  params = [name, version]
+  result = distinct([
+    "${REGISTRY}/${USER}/${name}:latest",
+    "${REGISTRY}/${USER}/${name}:${version}"
+  ])
 }
 
+# renovate: datasource=docker depName=registry.developers.crunchydata.com/crunchydata/crunchy-postgres
+variable "CRUNCHY_POSTGRES_VERSION" {
+  default = "ubi9-17.9-2610"
+}
 target "crunchy-postgres" {
   inherits = ["common"]
   dockerfile = "dockerfiles/crunchy-postgres.Dockerfile"
-  tags = tags("crunchy-postgres")
+  tags = tags("crunchy-postgres", CRUNCHY_POSTGRES_VERSION)
+  args = {
+    VERSION = CRUNCHY_POSTGRES_VERSION
+    DEV_CONTAINER_VERSION = DEV_CONTAINER_VERSION
+  }
 }
 
+variable "DEV_CONTAINER_VERSION" {
+  default = "ubuntu-24.04"
+}
 target "dev-container" {
   inherits = ["common"]
   dockerfile = "dockerfiles/dev-container.Dockerfile"
-  tags = tags("dev-container")
+  tags = tags("dev-container", DEV_CONTAINER_VERSION)
+  args = {
+    VERSION = DEV_CONTAINER_VERSION
+  }
 }
 
 target "dev-container-kubernetes" {
   inherits = ["common"]
   dockerfile = "dockerfiles/dev-container-kubernetes.Dockerfile"
-  tags = tags("dev-container-kubernetes")
+  tags = tags("dev-container-kubernetes", DEV_CONTAINER_VERSION)
   contexts = {
     dev-container = "target:dev-container"
   }
@@ -61,7 +78,7 @@ target "dev-container-kubernetes-ansible" {
   contexts = {
     dev-container-kubernetes = "target:dev-container-kubernetes"
   }
-  tags = tags("dev-container-kubernetes-ansible")
+  tags = tags("dev-container-kubernetes-ansible", DEV_CONTAINER_VERSION)
 }
 
 target "dev-container-kubernetes-go" {
@@ -70,47 +87,87 @@ target "dev-container-kubernetes-go" {
   contexts = {
     dev-container-kubernetes = "target:dev-container-kubernetes"
   }
-  tags = tags("dev-container-kubernetes-go")
+  tags = tags("dev-container-kubernetes-go", DEV_CONTAINER_VERSION)
 }
 
+# renovate: datasource=docker depName=ghcr.io/actions/actions-runner
+variable "GITHUB_ACTIONS_RUNNER_VERSION" {
+  default = "2.334.0"
+}
 target "github-actions-runner" {
   inherits = ["common"]
   dockerfile = "dockerfiles/github-actions-runner.Dockerfile"
-  tags = tags("github-actions-runner")
+  tags = tags("github-actions-runner", GITHUB_ACTIONS_RUNNER_VERSION)
+  args = {
+    VERSION = GITHUB_ACTIONS_RUNNER_VERSION
+  }
 }
 
+# renovate: datasource=docker depName=inventree/inventree
+variable "INVENTREE_VERSION" {
+  default = "1.3.2"
+}
 target "inventree" {
   inherits = ["common"]
   dockerfile = "dockerfiles/inventree.Dockerfile"
-  tags = tags("inventree")
+  tags = tags("inventree", INVENTREE_VERSION)
+  args = {
+    VERSION = INVENTREE_VERSION
+  }
 }
 
+variable "LITELLM_VERSION" {
+  default = "v1.83.14-stable"
+}
 target "litellm" {
   inherits = ["common"]
   dockerfile = "dockerfiles/litellm.Dockerfile"
-  tags = tags("litellm")
+  tags = tags("litellm", LITELLM_VERSION)
+  args = {
+    VERSION = LITELLM_VERSION
+  }
 }
 
+# renovate: datasource=docker depName=nextcloud
+variable "NEXTCLOUD_VERSION" {
+  default = "33.0.3-fpm-alpine"
+}
 target "nextcloud" {
   inherits = ["common"]
   dockerfile = "dockerfiles/nextcloud.Dockerfile"
-  tags = tags("nextcloud")
+  tags = tags("nextcloud", NEXTCLOUD_VERSION)
+  args = {
+    VERSION = NEXTCLOUD_VERSION
+  }
 }
 
 target "stalwart-cli" {
   inherits = ["common"]
   dockerfile = "dockerfiles/stalwart-cli.Dockerfile"
-  tags = tags("stalwart-cli")
+  tags = tags("stalwart-cli", "latest")
 }
 
+variable "UBUNTU_SYSTEMD_VERSION" {
+  default = "26.04"
+}
 target "ubuntu-systemd" {
   inherits = ["common"]
   dockerfile = "dockerfiles/ubuntu-systemd.Dockerfile"
-  tags = tags("ubuntu-systemd")
+  tags = tags("ubuntu-systemd", UBUNTU_SYSTEMD_VERSION)
+  args = {
+    VERSION = UBUNTU_SYSTEMD_VERSION
+  }
 }
 
+# renovate: datasource=docker depName=ghcr.io/dockur/windows
+variable "WINDOWS_VERSION" {
+  default = "5.15"
+}
 target "windows" {
   inherits = ["common"]
   dockerfile = "dockerfiles/windows.Dockerfile"
-  tags = tags("windows")
+  tags = tags("windows", WINDOWS_VERSION)
+  args = {
+    VERSION = WINDOWS_VERSION
+  }
 }

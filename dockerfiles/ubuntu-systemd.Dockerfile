@@ -1,4 +1,5 @@
-FROM ubuntu:26.04
+ARG VERSION
+FROM ubuntu:${VERSION}
 
 ENV container=docker
 ENV LC_ALL=C

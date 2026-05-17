@@ -1,4 +1,5 @@
-FROM ghcr.io/dockur/windows:5.15
+ARG VERSION
+FROM ghcr.io/dockur/windows:${VERSION}
 
 RUN apt-get update && \ 
     apt-get --no-install-recommends -y install \

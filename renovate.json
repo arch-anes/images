@@ -6,16 +6,12 @@
     "customManagers": [
         {
             "customType": "regex",
-            "managerFilePatterns": [
-                "/^dockerfiles/github-actions-runner\\.Dockerfile$/",
-                "/^dockerfiles/inventree\\.Dockerfile$/",
-                "/^dockerfiles/nextcloud\\.Dockerfile$/",
-                "/^dockerfiles/spilo-17\\.Dockerfile$/"
+            "fileMatch": [
+                "^docker-bake\\.hcl$"
             ],
             "matchStrings": [
-                "FROM (?<depName>[^:\\s]+):(?<currentValue>[\\w.-]+)"
-            ],
-            "datasourceTemplate": "docker"
+                "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)(?: versioning=(?<versioning>.*?))?\\s+variable \".*?\" {\\s+default = \"(?<currentValue>[^\"]+)\""
+            ]
         }
     ],
     "packageRules": [
