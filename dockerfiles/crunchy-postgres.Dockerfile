@@ -17,7 +17,7 @@ COPY --from=base /usr/share/postgresql/17/extension/* /usr/pgsql-17/share/extens
 
 USER root
 
-ARG TIMESCALEDB_VERSION=2.26.3
+ARG TIMESCALEDB_VERSION=2.27.1
 # https://github.com/CrunchyData/postgres-operator/issues/2692#issuecomment-1687095661
 RUN curl -sSL -o /etc/yum.repos.d/timescale_timescaledb.repo "https://packagecloud.io/install/repositories/timescale/timescaledb/config_file.repo?os=el&dist=9" && \
     microdnf update -y && \
