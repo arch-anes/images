@@ -52,7 +52,7 @@ target "crunchy-postgres" {
 }
 
 variable "DEV_CONTAINER_VERSION" {
-  default = "ubuntu-24.04"
+  default = "ubuntu26.04"
 }
 target "dev-container" {
   inherits = ["common"]
