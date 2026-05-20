@@ -20,7 +20,6 @@ USER root
 ARG TIMESCALEDB_VERSION=2.27.1
 # https://github.com/CrunchyData/postgres-operator/issues/2692#issuecomment-1687095661
 RUN curl -sSL -o /etc/yum.repos.d/timescale_timescaledb.repo "https://packagecloud.io/install/repositories/timescale/timescaledb/config_file.repo?os=el&dist=9" && \
-    microdnf update -y && \
     microdnf install -y timescaledb-2-loader-postgresql-17-${TIMESCALEDB_VERSION} && \
     microdnf install -y timescaledb-2-postgresql-17-${TIMESCALEDB_VERSION} && \
     microdnf clean all
