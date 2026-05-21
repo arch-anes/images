@@ -19,7 +19,8 @@ group "default" {
     "nextcloud",
     "stalwart-cli",
     "ubuntu-systemd",
-    "windows"
+    "windows",
+    "zfs-exporter"
   ]
 }
 
@@ -35,6 +36,19 @@ function "tags" {
     "${REGISTRY}/${USER}/${name}:latest",
     "${REGISTRY}/${USER}/${name}:${version}"
   ])
+}
+
+# renovate: datasource=github-releases depName=pdf/zfs_exporter
+variable "ZFS_EXPORTER_VERSION" {
+  default = "2.3.12"
+}
+target "zfs-exporter" {
+  inherits = ["common"]
+  dockerfile = "dockerfiles/zfs-exporter.Dockerfile"
+  tags = tags("zfs-exporter", ZFS_EXPORTER_VERSION)
+  args = {
+    VERSION = ZFS_EXPORTER_VERSION
+  }
 }
 
 # renovate: datasource=docker depName=registry.developers.crunchydata.com/crunchydata/crunchy-postgres
