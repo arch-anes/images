@@ -13,7 +13,6 @@ group "default" {
     "dev-container-kubernetes",
     "dev-container-kubernetes-ansible",
     "dev-container-kubernetes-go",
-    "github-actions-runner",
     "inventree",
     "litellm",
     "nextcloud",
@@ -102,19 +101,6 @@ target "dev-container-kubernetes-go" {
     dev-container-kubernetes = "target:dev-container-kubernetes"
   }
   tags = tags("dev-container-kubernetes-go", DEV_CONTAINER_VERSION)
-}
-
-# renovate: datasource=docker depName=ghcr.io/actions/actions-runner
-variable "GITHUB_ACTIONS_RUNNER_VERSION" {
-  default = "2.334.0"
-}
-target "github-actions-runner" {
-  inherits = ["common"]
-  dockerfile = "dockerfiles/github-actions-runner.Dockerfile"
-  tags = tags("github-actions-runner", GITHUB_ACTIONS_RUNNER_VERSION)
-  args = {
-    VERSION = GITHUB_ACTIONS_RUNNER_VERSION
-  }
 }
 
 # renovate: datasource=docker depName=inventree/inventree
