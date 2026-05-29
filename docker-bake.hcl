@@ -105,7 +105,7 @@ target "dev-container-kubernetes-go" {
 
 # renovate: datasource=docker depName=inventree/inventree
 variable "INVENTREE_VERSION" {
-  default = "1.3.2"
+  default = "1.3.3"
 }
 target "inventree" {
   inherits = ["common"]
