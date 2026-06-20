@@ -16,7 +16,7 @@ RUN sudo apt-get update && sudo apt-get install -y kubectl helm docker-ce-cli \
 
 RUN brew install yamlfmt kubeconform checkov kube-score
 
-RUN helm plugin install https://github.com/helm-unittest/helm-unittest.git
+RUN helm plugin install https://github.com/helm-unittest/helm-unittest.git --verify=false
 
 ARG HELMFMT_VERSION=0.5.0
 RUN curl -L https://github.com/digitalstudium/helmfmt/releases/download/v${HELMFMT_VERSION}/helmfmt_Linux_x86_64.tar.gz | sudo tar -xzf - -C /usr/local/bin/ helmfmt
