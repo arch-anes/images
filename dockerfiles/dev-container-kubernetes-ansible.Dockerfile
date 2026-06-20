@@ -10,7 +10,7 @@ RUN sudo apt-get update && sudo apt-get install -y qemu-system-x86 libvirt-daemo
 
 RUN sudo usermod -G libvirt -a vscode
 
-RUN brew tap hashicorp/tap && brew install pipx
+RUN brew install pipx
 
 # https://github.com/ansible-community/molecule-plugins/issues/301#issuecomment-2629683469
 RUN sudo $(which pipx) install --global --include-deps         ansible && \
