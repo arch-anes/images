@@ -16,6 +16,7 @@ group "default" {
     "inventree",
     "litellm",
     "nextcloud",
+    "opencode",
     "stalwart-cli",
     "ubuntu-systemd",
     "windows",
@@ -138,6 +139,22 @@ target "nextcloud" {
   tags = tags("nextcloud", NEXTCLOUD_VERSION)
   args = {
     VERSION = NEXTCLOUD_VERSION
+  }
+}
+
+# renovate: datasource=github-releases depName=anomalyco/opencode
+variable "OPENCODE_VERSION" {
+  default = "1.17.9"
+}
+target "opencode" {
+  inherits = ["common"]
+  dockerfile = "dockerfiles/opencode.Dockerfile"
+  tags = tags("opencode", OPENCODE_VERSION)
+  contexts = {
+    dev-container = "target:dev-container"
+  }
+  args = {
+    VERSION = OPENCODE_VERSION
   }
 }
 
