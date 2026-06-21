@@ -8,6 +8,8 @@ USER vscode
 
 WORKDIR /home/vscode
 
+RUN mkdir -p .local/share .cache .config
+
 RUN NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
     echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> $HOME/.profile
 
