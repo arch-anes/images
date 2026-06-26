@@ -9,7 +9,9 @@ RUN groupadd -g 568 apps && \
 
 USER 568
 
-RUN curl -LsSf https://github.com/stalwartlabs/cli/releases/latest/download/stalwart-cli-installer.sh | sh
+ARG VERSION
+
+RUN curl -LsSf https://github.com/stalwartlabs/cli/releases/download/v${VERSION}/stalwart-cli-installer.sh | sh
 
 ENV PATH=/home/apps/.cargo/bin:$PATH
 

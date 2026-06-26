@@ -144,10 +144,17 @@ target "opencode" {
   }
 }
 
+# renovate: datasource=github-releases depName=stalwartlabs/cli
+variable "STALWART_CLI_VERSION" {
+  default = "1.0.9"
+}
 target "stalwart-cli" {
   inherits = ["common"]
   dockerfile = "dockerfiles/stalwart-cli.Dockerfile"
-  tags = tags("stalwart-cli", "latest")
+  tags = tags("stalwart-cli", STALWART_CLI_VERSION)
+    args = {
+    VERSION = STALWART_CLI_VERSION
+  }
 }
 
 variable "UBUNTU_SYSTEMD_VERSION" {
