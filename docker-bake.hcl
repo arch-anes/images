@@ -13,7 +13,6 @@ group "default" {
     "dev-container-kubernetes",
     "dev-container-kubernetes-ansible",
     "dev-container-kubernetes-go",
-    "inventree",
     "litellm",
     "nextcloud",
     "opencode",
@@ -102,19 +101,6 @@ target "dev-container-kubernetes-go" {
     dev-container-kubernetes = "target:dev-container-kubernetes"
   }
   tags = tags("dev-container-kubernetes-go", DEV_CONTAINER_VERSION)
-}
-
-# renovate: datasource=docker depName=inventree/inventree
-variable "INVENTREE_VERSION" {
-  default = "1.3.6"
-}
-target "inventree" {
-  inherits = ["common"]
-  dockerfile = "dockerfiles/inventree.Dockerfile"
-  tags = tags("inventree", INVENTREE_VERSION)
-  args = {
-    VERSION = INVENTREE_VERSION
-  }
 }
 
 variable "LITELLM_VERSION" {
