@@ -146,7 +146,7 @@ target "opencode" {
 
 # renovate: datasource=github-releases depName=stalwartlabs/cli
 variable "STALWART_CLI_VERSION" {
-  default = "1.0.9"
+  default = "1.0.10"
 }
 target "stalwart-cli" {
   inherits = ["common"]
