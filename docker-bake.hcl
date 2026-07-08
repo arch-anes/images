@@ -171,7 +171,7 @@ target "ubuntu-systemd" {
 
 # renovate: datasource=docker depName=ghcr.io/dockur/windows
 variable "WINDOWS_VERSION" {
-  default = "5.16"
+  default = "6.00"
 }
 target "windows" {
   inherits = ["common"]
