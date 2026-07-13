@@ -17,7 +17,6 @@ group "default" {
     "nextcloud",
     "opencode",
     "stalwart-cli",
-    "ubuntu-systemd",
     "windows",
     "zfs-exporter"
   ]
@@ -159,14 +158,6 @@ target "stalwart-cli" {
 
 variable "UBUNTU_SYSTEMD_VERSION" {
   default = "26.04"
-}
-target "ubuntu-systemd" {
-  inherits = ["common"]
-  dockerfile = "dockerfiles/ubuntu-systemd.Dockerfile"
-  tags = tags("ubuntu-systemd", UBUNTU_SYSTEMD_VERSION)
-  args = {
-    VERSION = UBUNTU_SYSTEMD_VERSION
-  }
 }
 
 # renovate: datasource=docker depName=ghcr.io/dockur/windows
