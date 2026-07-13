@@ -16,7 +16,6 @@ group "default" {
     "litellm",
     "nextcloud",
     "opencode",
-    "stalwart-cli",
     "windows",
     "zfs-exporter"
   ]
@@ -140,19 +139,6 @@ target "opencode" {
   }
   args = {
     VERSION = OPENCODE_VERSION
-  }
-}
-
-# renovate: datasource=github-releases depName=stalwartlabs/cli
-variable "STALWART_CLI_VERSION" {
-  default = "1.0.10"
-}
-target "stalwart-cli" {
-  inherits = ["common"]
-  dockerfile = "dockerfiles/stalwart-cli.Dockerfile"
-  tags = tags("stalwart-cli", STALWART_CLI_VERSION)
-    args = {
-    VERSION = STALWART_CLI_VERSION
   }
 }
 
