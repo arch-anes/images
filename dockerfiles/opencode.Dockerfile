@@ -12,9 +12,6 @@ RUN sudo apt-get update && \
 
 ARG VERSION
 
-RUN curl -fsSL -O "https://github.com/anomalyco/opencode/releases/download/v${VERSION}/opencode-linux-x64.tar.gz" && \
-    tar -xzf opencode-linux-x64.tar.gz && \
-    sudo mv opencode /usr/bin/opencode && \
-    rm -f opencode-linux-x64.tar.gz
+RUN curl -fsSL "https://github.com/anomalyco/opencode/releases/download/v${VERSION}/opencode-linux-x64.tar.gz" | sudo tar -xzf - -C /usr/local/bin/ opencode
 
 ENTRYPOINT ["/usr/bin/opencode"]

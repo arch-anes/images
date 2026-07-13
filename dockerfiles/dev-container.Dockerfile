@@ -6,9 +6,7 @@ RUN apt-get update && apt-get install -y software-properties-common ca-certifica
 
 USER vscode
 
-WORKDIR /home/vscode
-
-RUN mkdir -p .local/share .cache .config
+RUN mkdir -p $HOME/.local/share $HOME/.cache $HOME/.config
 
 RUN NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
     echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> $HOME/.profile
