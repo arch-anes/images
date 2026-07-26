@@ -48,16 +48,33 @@ target "zfs-exporter" {
   }
 }
 
-# renovate: datasource=docker depName=registry.developers.crunchydata.com/crunchydata/crunchy-postgres
-variable "CRUNCHY_POSTGRES_VERSION" {
+# renovate: datasource=docker depName=registry.developers.crunchydata.com/crunchydata/crunchy-postgres versioning=regex:^ubi9-(?<major>17)\.(?<minor>\d+)-(?<patch>\d+)$
+variable "CRUNCHY_POSTGRES_17_VERSION" {
   default = "ubi9-17.9-2610"
 }
+
+# renovate: datasource=docker depName=registry.developers.crunchydata.com/crunchydata/crunchy-postgres versioning=regex:^ubi9-(?<major>18)\.(?<minor>\d+)-(?<patch>\d+)$
+variable "CRUNCHY_POSTGRES_18_VERSION" {
+  default = "ubi9-18.4-2621"
+}
+
 target "crunchy-postgres" {
   inherits = ["common"]
+  matrix = {
+    item = [
+      { major = "17", version = CRUNCHY_POSTGRES_17_VERSION },
+      { major = "18", version = CRUNCHY_POSTGRES_18_VERSION }
+    ]
+  }
+  name = "crunchy-postgres-${item.major}"
   dockerfile = "dockerfiles/crunchy-postgres.Dockerfile"
-  tags = tags("crunchy-postgres", CRUNCHY_POSTGRES_VERSION)
+  tags = [
+    "${REGISTRY}/${USER}/crunchy-postgres:${item.version}",
+    item.major == "18" ? "${REGISTRY}/${USER}/crunchy-postgres:latest" : ""
+  ]
   args = {
-    VERSION = CRUNCHY_POSTGRES_VERSION
+    VERSION = item.version
+    PG_MAJOR = item.major
     DEV_CONTAINER_VERSION = DEV_CONTAINER_VERSION
   }
 }
