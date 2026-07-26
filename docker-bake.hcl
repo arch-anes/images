@@ -148,7 +148,7 @@ variable "UBUNTU_SYSTEMD_VERSION" {
 
 # renovate: datasource=docker depName=ghcr.io/dockur/windows
 variable "WINDOWS_VERSION" {
-  default = "6.02"
+  default = "6.03"
 }
 target "windows" {
   inherits = ["common"]
