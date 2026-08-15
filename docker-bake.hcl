@@ -133,7 +133,7 @@ target "litellm" {
 
 # renovate: datasource=github-tags depName=ggml-org/llama.cpp versioning=regex:^b(?<major>\d+)$
 variable "LLAMA_CPP_VERSION" {
-  default = "b10423"
+  default = "b10438"
 }
 
 target "llama-cpp" {
