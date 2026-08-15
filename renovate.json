@@ -11,7 +11,9 @@
             ],
             "matchStrings": [
                 "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)(?: versioning=(?<versioning>.*?))?\\s+variable \".*?\" {\\s+default = \"(?<currentValue>[^\"]+)\""
-            ]
+            ],
+            "currentValueTemplate": "{{#if (equals depName 'ghcr.io/ggml-org/llama.cpp')}}server-rocm-{{{currentValue}}}{{else}}{{{currentValue}}}{{/if}}",
+            "autoReplaceStringTemplate": "{{#if (equals depName 'ghcr.io/ggml-org/llama.cpp')}}{{replace 'server-rocm-' '' newValue}}{{else}}{{{newValue}}}{{/if}}"
         }
     ],
     "packageRules": [

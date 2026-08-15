@@ -131,7 +131,7 @@ target "litellm" {
   }
 }
 
-# renovate: datasource=github-tags depName=ggml-org/llama.cpp versioning=regex:^b(?<major>\d+)$
+# renovate: datasource=docker depName=ghcr.io/ggml-org/llama.cpp versioning=regex:^server-rocm-b(?<major>\d+)$
 variable "LLAMA_CPP_VERSION" {
   default = "b10423"
 }
