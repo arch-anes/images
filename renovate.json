@@ -16,6 +16,13 @@
     ],
     "packageRules": [
         {
+            "matchPackageNames": [
+                "ghcr.io/ggml-org/llama.cpp"
+            ],
+            "versioning": "regex:^b(?<major>\\d+)$",
+            "extractVersion": "^server-rocm-(?<version>b\\d+)$"
+        },
+        {
             "matchCategories": [
                 "docker"
             ],
