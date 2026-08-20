@@ -133,7 +133,7 @@ target "litellm" {
 
 # renovate: datasource=docker depName=ghcr.io/ggml-org/llama.cpp
 variable "LLAMA_CPP_VERSION" {
-  default = "b10499"
+  default = "b10524"
 }
 
 target "llama-cpp" {
