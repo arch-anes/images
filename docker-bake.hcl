@@ -14,7 +14,6 @@ group "default" {
     "dev-container-kubernetes-ansible",
     "dev-container-kubernetes-go",
     "litellm",
-    "llama-cpp",
     "nextcloud",
     "opencode",
     "zfs-exporter"
@@ -127,20 +126,6 @@ target "litellm" {
   tags = tags("litellm", LITELLM_VERSION)
   args = {
     VERSION = LITELLM_VERSION
-  }
-}
-
-# renovate: datasource=docker depName=ghcr.io/ggml-org/llama.cpp
-variable "LLAMA_CPP_VERSION" {
-  default = "b10573"
-}
-
-target "llama-cpp" {
-  inherits = ["common"]
-  dockerfile = "dockerfiles/llama.cpp.Dockerfile"
-  tags = ["${REGISTRY}/${USER}/llama.cpp:server-rocm-${LLAMA_CPP_VERSION}"]
-  args = {
-    LLAMA_CPP_TAG = LLAMA_CPP_VERSION
   }
 }
 
