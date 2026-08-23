@@ -14,4 +14,4 @@ ARG VERSION
 
 RUN curl -fsSL "https://github.com/anomalyco/opencode/releases/download/v${VERSION}/opencode-linux-x64.tar.gz" | sudo tar -xzf - -C /usr/local/bin/ opencode
 
-ENTRYPOINT ["/usr/bin/opencode"]
+ENTRYPOINT ["/usr/local/bin/opencode"]
