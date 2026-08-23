@@ -17,7 +17,6 @@ group "default" {
     "llama-cpp",
     "nextcloud",
     "opencode",
-    "windows",
     "zfs-exporter"
   ]
 }
@@ -178,15 +177,3 @@ variable "UBUNTU_SYSTEMD_VERSION" {
   default = "26.04"
 }
 
-# renovate: datasource=docker depName=ghcr.io/dockur/windows
-variable "WINDOWS_VERSION" {
-  default = "6.05"
-}
-target "windows" {
-  inherits = ["common"]
-  dockerfile = "dockerfiles/windows.Dockerfile"
-  tags = tags("windows", WINDOWS_VERSION)
-  args = {
-    VERSION = WINDOWS_VERSION
-  }
-}
