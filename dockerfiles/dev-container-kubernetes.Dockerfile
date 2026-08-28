@@ -11,14 +11,21 @@ RUN curl -fsSL https://packages.buildkite.com/helm-linux/helm-debian/gpgkey | su
 RUN sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc && sudo chmod a+r /etc/apt/keyrings/docker.asc && \
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list
 
-RUN sudo apt-get update && sudo apt-get install -y kubectl helm docker-ce-cli \
+RUN sudo add-apt-repository ppa:longsleep/golang-backports
+
+RUN sudo apt-get update && sudo apt-get install -y kubectl helm docker-ce-cli golang-go \
     && sudo rm -rf /var/lib/apt/lists/*
 
 RUN brew install yamlfmt kubeconform checkov kube-score
 
 RUN helm plugin install https://github.com/helm-unittest/helm-unittest.git --verify=false
 
+RUN helm plugin install https://github.com/arch-anes/helm-schema.git --verify=false
+
 ARG HELMFMT_VERSION=0.5.0
 RUN curl -L https://github.com/digitalstudium/helmfmt/releases/download/v${HELMFMT_VERSION}/helmfmt_Linux_x86_64.tar.gz | sudo tar -xzf - -C /usr/local/bin/ helmfmt
 
-RUN helm plugin install https://github.com/arch-anes/helm-schema.git --verify=false
+RUN cd $HOME && curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
+
+ARG KUBEBUILDER_VERSION=4.15.0
+RUN cd $HOME && curl -L "https://github.com/kubernetes-sigs/kubebuilder/releases/download/v$KUBEBUILDER_VERSION/kubebuilder_linux_amd64" -o kubebuilder && sudo install kubebuilder /usr/local/bin/kubebuilder && rm kubebuilder

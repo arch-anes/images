@@ -12,7 +12,6 @@ group "default" {
     "dev-container",
     "dev-container-kubernetes",
     "dev-container-kubernetes-ansible",
-    "dev-container-kubernetes-go",
     "litellm",
     "nextcloud",
     "opencode",
@@ -106,15 +105,6 @@ target "dev-container-kubernetes-ansible" {
     dev-container-kubernetes = "target:dev-container-kubernetes"
   }
   tags = tags("dev-container-kubernetes-ansible", DEV_CONTAINER_VERSION)
-}
-
-target "dev-container-kubernetes-go" {
-  inherits = ["common"]
-  dockerfile = "dockerfiles/dev-container-kubernetes-go.Dockerfile"
-  contexts = {
-    dev-container-kubernetes = "target:dev-container-kubernetes"
-  }
-  tags = tags("dev-container-kubernetes-go", DEV_CONTAINER_VERSION)
 }
 
 variable "LITELLM_VERSION" {
