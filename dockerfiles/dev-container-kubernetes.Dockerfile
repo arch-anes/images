@@ -20,3 +20,5 @@ RUN helm plugin install https://github.com/helm-unittest/helm-unittest.git --ver
 
 ARG HELMFMT_VERSION=0.5.0
 RUN curl -L https://github.com/digitalstudium/helmfmt/releases/download/v${HELMFMT_VERSION}/helmfmt_Linux_x86_64.tar.gz | sudo tar -xzf - -C /usr/local/bin/ helmfmt
+
+RUN helm plugin install https://github.com/arch-anes/helm-schema.git --verify=false
