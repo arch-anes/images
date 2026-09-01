@@ -48,12 +48,12 @@ target "zfs-exporter" {
 
 # renovate: datasource=docker depName=registry.developers.crunchydata.com/crunchydata/crunchy-postgres versioning=regex:^ubi9-(?<major>17)\.(?<minor>\d+)-(?<patch>\d+)$
 variable "CRUNCHY_POSTGRES_17_VERSION" {
-  default = "ubi9-17.9-2610"
+  default = "ubi9-17.11-2633"
 }
 
 # renovate: datasource=docker depName=registry.developers.crunchydata.com/crunchydata/crunchy-postgres versioning=regex:^ubi9-(?<major>18)\.(?<minor>\d+)-(?<patch>\d+)$
 variable "CRUNCHY_POSTGRES_18_VERSION" {
-  default = "ubi9-18.4-2621"
+  default = "ubi9-18.6-2633"
 }
 
 target "crunchy-postgres" {
