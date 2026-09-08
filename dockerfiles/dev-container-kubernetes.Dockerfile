@@ -20,6 +20,8 @@ RUN brew install yamlfmt kubeconform checkov kube-score
 
 RUN helm plugin install https://github.com/helm-unittest/helm-unittest.git --verify=false
 
+RUN helm plugin install https://github.com/arch-anes/helm-format.git --verify=false
+
 RUN helm plugin install https://github.com/arch-anes/helm-schema.git --verify=false
 
 ARG HELMFMT_VERSION=0.5.0
