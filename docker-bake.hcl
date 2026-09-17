@@ -121,7 +121,7 @@ target "litellm" {
 
 # renovate: datasource=docker depName=nextcloud
 variable "NEXTCLOUD_VERSION" {
-  default = "34.0.4-fpm-alpine"
+  default = "35.0.0-fpm-alpine"
 }
 target "nextcloud" {
   inherits = ["common"]
