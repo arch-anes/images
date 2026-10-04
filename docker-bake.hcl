@@ -15,6 +15,7 @@ group "default" {
     "litellm",
     "nextcloud",
     "opencode",
+    "strata",
     "zfs-exporter"
   ]
 }
@@ -152,6 +153,27 @@ target "opencode" {
   }
   args = {
     VERSION = OPENCODE_VERSION
+  }
+}
+
+# renovate: datasource=github-releases depName=Niko1221/Strata
+variable "STRATA_VERSION" {
+  default = "0.1.39"
+}
+
+# renovate: datasource=docker depName=rocm/dev-ubuntu-24.04 versioning=regex:^(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)-full$
+variable "ROCM_VERSION" {
+  default = "10.0.0-full"
+}
+
+target "strata" {
+  inherits = ["common"]
+  context = "images/strata"
+  dockerfile = "Dockerfile"
+  tags = tags("strata", STRATA_VERSION)
+  args = {
+    ROCM_VERSION = ROCM_VERSION
+    STRATA_VERSION = STRATA_VERSION
   }
 }
 
