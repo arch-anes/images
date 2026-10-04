@@ -21,7 +21,6 @@ group "default" {
 
 # Common settings shared by all targets
 target "common" {
-  context = "."
   platforms = ["linux/amd64"]
 }
 
@@ -39,7 +38,8 @@ variable "ZFS_EXPORTER_VERSION" {
 }
 target "zfs-exporter" {
   inherits = ["common"]
-  dockerfile = "dockerfiles/zfs-exporter.Dockerfile"
+  context = "images/zfs-exporter"
+  dockerfile = "Dockerfile"
   tags = tags("zfs-exporter", ZFS_EXPORTER_VERSION)
   args = {
     VERSION = ZFS_EXPORTER_VERSION
@@ -65,7 +65,8 @@ target "crunchy-postgres" {
     ]
   }
   name = "crunchy-postgres-${item.major}"
-  dockerfile = "dockerfiles/crunchy-postgres.Dockerfile"
+  context = "images/crunchy-postgres"
+  dockerfile = "Dockerfile"
   tags = [
     "${REGISTRY}/${USER}/crunchy-postgres:${item.version}",
     item.major == "18" ? "${REGISTRY}/${USER}/crunchy-postgres:latest" : ""
@@ -82,7 +83,8 @@ variable "DEV_CONTAINER_VERSION" {
 }
 target "dev-container" {
   inherits = ["common"]
-  dockerfile = "dockerfiles/dev-container.Dockerfile"
+  context = "images/dev-container"
+  dockerfile = "Dockerfile"
   tags = tags("dev-container", DEV_CONTAINER_VERSION)
   args = {
     VERSION = DEV_CONTAINER_VERSION
@@ -91,7 +93,8 @@ target "dev-container" {
 
 target "dev-container-kubernetes" {
   inherits = ["common"]
-  dockerfile = "dockerfiles/dev-container-kubernetes.Dockerfile"
+  context = "images/dev-container-kubernetes"
+  dockerfile = "Dockerfile"
   tags = tags("dev-container-kubernetes", DEV_CONTAINER_VERSION)
   contexts = {
     dev-container = "target:dev-container"
@@ -100,7 +103,8 @@ target "dev-container-kubernetes" {
 
 target "dev-container-kubernetes-ansible" {
   inherits = ["common"]
-  dockerfile = "dockerfiles/dev-container-kubernetes-ansible.Dockerfile"
+  context = "images/dev-container-kubernetes-ansible"
+  dockerfile = "Dockerfile"
   contexts = {
     dev-container-kubernetes = "target:dev-container-kubernetes"
   }
@@ -112,7 +116,8 @@ variable "LITELLM_VERSION" {
 }
 target "litellm" {
   inherits = ["common"]
-  dockerfile = "dockerfiles/litellm.Dockerfile"
+  context = "images/litellm"
+  dockerfile = "Dockerfile"
   tags = tags("litellm", LITELLM_VERSION)
   args = {
     VERSION = LITELLM_VERSION
@@ -125,7 +130,8 @@ variable "NEXTCLOUD_VERSION" {
 }
 target "nextcloud" {
   inherits = ["common"]
-  dockerfile = "dockerfiles/nextcloud.Dockerfile"
+  context = "images/nextcloud"
+  dockerfile = "Dockerfile"
   tags = tags("nextcloud", NEXTCLOUD_VERSION)
   args = {
     VERSION = NEXTCLOUD_VERSION
@@ -138,7 +144,8 @@ variable "OPENCODE_VERSION" {
 }
 target "opencode" {
   inherits = ["common"]
-  dockerfile = "dockerfiles/opencode.Dockerfile"
+  context = "images/opencode"
+  dockerfile = "Dockerfile"
   tags = tags("opencode", OPENCODE_VERSION)
   contexts = {
     dev-container = "target:dev-container"
@@ -151,4 +158,3 @@ target "opencode" {
 variable "UBUNTU_SYSTEMD_VERSION" {
   default = "26.04"
 }
-
