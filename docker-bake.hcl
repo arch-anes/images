@@ -163,7 +163,7 @@ variable "STRATA_VERSION" {
 
 # renovate: datasource=docker depName=rocm/dev-ubuntu-24.04 versioning=regex:^(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)-full$
 variable "ROCM_VERSION" {
-  default = "10.0.0-full"
+  default = "10.1.0-full"
 }
 
 target "strata" {
