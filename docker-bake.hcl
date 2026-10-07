@@ -35,7 +35,7 @@ function "tags" {
 
 # renovate: datasource=github-releases depName=pdf/zfs_exporter
 variable "ZFS_EXPORTER_VERSION" {
-  default = "2.4.1"
+  default = "2.4.2"
 }
 target "zfs-exporter" {
   inherits = ["common"]
