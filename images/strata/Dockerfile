@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1.27
+# syntax=docker/dockerfile:1.28
 #
 # Build the Strata HIP engine into the image for an AMD RX 9070 XT (gfx1201).
 # The GPU is not needed during the image build. The model and setup data live
