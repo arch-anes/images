@@ -158,7 +158,7 @@ target "opencode" {
 
 # renovate: datasource=github-releases depName=Niko1221/Strata
 variable "STRATA_VERSION" {
-  default = "0.1.39"
+  default = "0.1.42"
 }
 
 # renovate: datasource=docker depName=rocm/dev-ubuntu-24.04 versioning=regex:^(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)-full$
