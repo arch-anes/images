@@ -12,8 +12,7 @@ RUN sudo usermod -G libvirt -a vscode
 
 RUN brew install pipx
 
-# https://github.com/ansible-community/molecule-plugins/issues/301#issuecomment-2629683469
 RUN sudo $(which pipx) install --global --include-deps         ansible && \
-    sudo $(which pipx) inject  --global --include-deps --force ansible uv jmespath netaddr boto3 ansible-lint "molecule==25.1.0" "molecule-plugins==23.7.0" "molecule-plugins[vagrant]==23.7.0" molecule-plugins[docker]
+    sudo $(which pipx) inject  --global --include-deps --force ansible uv jmespath netaddr boto3 ansible-lint "molecule==25.1.0" molecule-plugins molecule-plugins[vagrant] molecule-plugins[docker]
 
 RUN vagrant plugin install vagrant-libvirt
