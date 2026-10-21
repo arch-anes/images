@@ -10,7 +10,7 @@ RUN sudo apt-get update && sudo apt-get install -y python3-yaml qemu-system-x86 
 
 RUN sudo usermod -G libvirt -a vscode
 
-RUN brew install python@3.14 pipx
+RUN brew install pipx
 
 RUN sudo $(which pipx) install --global --include-deps         ansible && \
     sudo $(which pipx) inject  --global --include-deps --force ansible uv jmespath netaddr boto3 ansible-lint "molecule==25.1.0" molecule-plugins molecule-plugins[vagrant] molecule-plugins[docker]
