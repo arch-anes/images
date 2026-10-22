@@ -5,12 +5,10 @@ FROM dev-container-kubernetes
 RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg && \
     echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
 
-RUN sudo apt-get update && sudo apt-get install -y python3-yaml qemu-system-x86 libvirt-daemon-system libvirt-dev vagrant \
+RUN sudo apt-get update && sudo apt-get install -y python3-yaml python3-venv qemu-system-x86 libvirt-daemon-system libvirt-dev vagrant pipx \
     && sudo rm -rf /var/lib/apt/lists/*
 
 RUN sudo usermod -G libvirt -a vscode
-
-RUN brew install pipx
 
 RUN sudo $(which pipx) install --global --include-deps         ansible && \
     sudo $(which pipx) inject  --global --include-deps --force ansible uv jmespath netaddr boto3 ansible-lint "molecule==25.1.0" molecule-plugins molecule-plugins[vagrant] molecule-plugins[docker]
