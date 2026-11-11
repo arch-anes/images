@@ -140,7 +140,7 @@ target "nextcloud" {
 
 # renovate: datasource=github-releases depName=anomalyco/opencode
 variable "OPENCODE_VERSION" {
-  default = "2.2.6"
+  default = "2.2.7"
 }
 target "opencode" {
   inherits = ["common"]
