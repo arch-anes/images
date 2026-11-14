@@ -17,7 +17,7 @@ ARG VERSION
 
 RUN curl -fsSL "https://github.com/anomalyco/opencode/releases/download/v${VERSION}/opencode-linux-x64.tar.gz" | sudo tar -xzf - -C /usr/local/bin/ opencode
 
-RUN brew install jadx ghidra
+RUN brew install jadx ghidra gh
 
 ENV GHIDRA_INSTALL_DIR /home/linuxbrew/.linuxbrew/opt/ghidra/libexec/
 
